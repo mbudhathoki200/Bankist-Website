@@ -7,6 +7,8 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo=document.querySelector('.btn--scroll-to');
+const section1=document.querySelector('#section--1');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -29,8 +31,8 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
-const btnScrollTo=document.querySelector('.btn--scroll-to');
-const section1=document.querySelector('#section--1'); 
+
+//BUtton scrolling 
 btnScrollTo.addEventListener('click',function(e){
   // const s1cords=section1.getBoundingClientRect();
   // console.log(s1cords);
@@ -44,6 +46,40 @@ btnScrollTo.addEventListener('click',function(e){
   // });
   section1.scrollIntoView({behavior:'smooth'});
 })
+//Page Navigation(NAVBARS SMOOTH SCROLL)
+// document.querySelectorAll('.nav__link').forEach(function(el){
+//   el.addEventListener('click',function(e){
+//     e.preventDefault();
+//     const id=this.getAttribute('href'); 
+//     document.querySelector(id).scrollIntoView({behavior:'smooth'});
+//   })
+// }) 
+//1. Add Event listener to commmon parent element.
+//2.Determine what element originated the event
+document.querySelector('.nav__links').addEventListener('click',function(e){
+  e.preventDefault();
+  //Matching stategy
+  if(e.target.classList.contains('nav__link')){
+    const id=e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({behavior:'smooth'});
+  }
+})
+
+
+//Events anda its handlers.
+// const h1=document.querySelector('h1');
+// const alert1=function(e){
+//   alert('addEventListener:Great! YOu are reading a heading.');
+//   // h1.removeEventListener('mouseenter',alert1);
+// };
+// // h1.onmouseenter=(e)=>{
+// //   alert('addEventListener:Great!You are reading a heading.');
+// // };
+// h1.addEventListener('mouseenter',alert1);
+// setTimeout(()=>{
+//   h1.removeEventListener('mouseenter',alert1);
+// },3000);
+
 
 // //Selecting Elements
 // console.log(document.documentElement);
@@ -83,5 +119,17 @@ btnScrollTo.addEventListener('click',function(e){
 // //Non Standard
 // logo.setAttribute('designer','Manish');
 // console.log(logo.getAttribute('designer'));
-// //Classes
 
+// //Classes
+//Event Propagation
+// rgb(255,255,255);
+// const randomInt=(min,max)=>Math.floor(Math.random()*(max-min+1)+min);
+// const randomColor=()=>`rgb(${randomInt(0,255)},${randomInt(0,255)},${randomInt(0,255)})`;
+// document.querySelector('.nav__link').addEventListener('click',function(e){
+//   this.style.backgroundColor=randomColor();
+// document.querySelector('.nav__links').addEventListener('click',function(e){
+//   this.style.backgroundColor=randomColor();
+// })
+// document.querySelector('.nav').addEventListener('click',function(e){
+//   console.log('LINK',e.target,e.currentTarget);
+// })
