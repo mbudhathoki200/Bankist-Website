@@ -73,7 +73,6 @@ tabsContainer.addEventListener('click',function(e){
   //   console.log("GOT LINK");
   // }
   const clicked=e.target.closest('.operations__tab');
-  console.log(clicked);
   //Guard Early
   if(!clicked) return;
   //Remove Active classes
@@ -84,7 +83,23 @@ tabsContainer.addEventListener('click',function(e){
   //Active Content Area
   document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
 
-})
+});
+//Manu Fade Animation
+const nav=document.querySelector('.nav');
+const handleHover=function(e){
+  if(e.target.classList.contains('nav__link')){
+    const link=e.target;
+    const siblings=link.closest('.nav').querySelectorAll('.nav__link');
+    const logo=link.closest('.nav').querySelector('img');
+    siblings.forEach(el=>{
+      if(el!==link) el.style.opacity=this;
+    });
+    logo.style.opacity=this;
+  }
+}
+//Passing "arguments" into Handler
+nav.addEventListener('mouseover',handleHover.bind(0.5));
+nav.addEventListener('mouseout',handleHover.bind(1));
 
 
 //Events anda its handlers.
