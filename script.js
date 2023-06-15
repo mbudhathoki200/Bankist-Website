@@ -7,8 +7,8 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
-const btnScrollTo=document.querySelector('.btn--scroll-to');
-const section1=document.querySelector('#section--1');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -21,7 +21,7 @@ const closeModal = function () {
   overlay.classList.add('hidden');
 };
 
-btnsOpenModal.forEach(btn=>btn.addEventListener('click',openModal));
+btnsOpenModal.forEach(btn => btn.addEventListener('click', openModal));
 
 btnCloseModal.addEventListener('click', closeModal);
 overlay.addEventListener('click', closeModal);
@@ -32,8 +32,8 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-//BUtton scrolling 
-btnScrollTo.addEventListener('click',function(e){
+//BUtton scrolling
+btnScrollTo.addEventListener('click', function (e) {
   // const s1cords=section1.getBoundingClientRect();
   // console.log(s1cords);
   // console.log(e.target.getBoundingClientRect());
@@ -44,62 +44,63 @@ btnScrollTo.addEventListener('click',function(e){
   //   top:s1cords.top+window.pageYOffset,
   //   behavior:'smooth',
   // });
-  section1.scrollIntoView({behavior:'smooth'});
-})
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
 //Page Navigation(NAVBARS SMOOTH SCROLL)
 // document.querySelectorAll('.nav__link').forEach(function(el){
 //   el.addEventListener('click',function(e){
 //     e.preventDefault();
-//     const id=this.getAttribute('href'); 
+//     const id=this.getAttribute('href');
 //     document.querySelector(id).scrollIntoView({behavior:'smooth'});
 //   })
-// }) 
+// })
 //1. Add Event listener to commmon parent element.
 //2.Determine what element originated the event
-document.querySelector('.nav__links').addEventListener('click',function(e){
+document.querySelector('.nav__links').addEventListener('click', function (e) {
   e.preventDefault();
   //Matching stategy
-  if(e.target.classList.contains('nav__link')){
-    const id=e.target.getAttribute('href');
-    document.querySelector(id).scrollIntoView({behavior:'smooth'});
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   }
-})
+});
 //Tabbed Component
-const tabs=document.querySelectorAll('.operations__tab');
-const tabsContainer=document.querySelector('.operations__tab-container');
-const tabsContent=document.querySelectorAll('.operations__content');
-tabsContainer.addEventListener('click',function(e){
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+tabsContainer.addEventListener('click', function (e) {
   // if(e.target.classList.contains('operations__tab')){
   //   console.log("GOT LINK");
   // }
-  const clicked=e.target.closest('.operations__tab');
+  const clicked = e.target.closest('.operations__tab');
   //Guard Early
-  if(!clicked) return;
+  if (!clicked) return;
   //Remove Active classes
-  tabs.forEach(t=>t.classList.remove('operations__tab--active'));
-  tabsContent.forEach(c=>c.classList.remove('operations__content--active'));
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  tabsContent.forEach(c => c.classList.remove('operations__content--active'));
   //Active tab
   clicked.classList.add('operations__tab--active');
   //Active Content Area
-  document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
-
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
 });
 //Manu Fade Animation
-const nav=document.querySelector('.nav');
-const handleHover=function(e){
-  if(e.target.classList.contains('nav__link')){
-    const link=e.target;
-    const siblings=link.closest('.nav').querySelectorAll('.nav__link');
-    const logo=link.closest('.nav').querySelector('img');
-    siblings.forEach(el=>{
-      if(el!==link) el.style.opacity=this;
+const nav = document.querySelector('.nav');
+const handleHover = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+    siblings.forEach(el => {
+      if (el !== link) el.style.opacity = this;
     });
-    logo.style.opacity=this;
+    logo.style.opacity = this;
   }
-}
+};
 //Passing "arguments" into Handler
-nav.addEventListener('mouseover',handleHover.bind(0.5));
-nav.addEventListener('mouseout',handleHover.bind(1));
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+nav.addEventListener('mouseout', handleHover.bind(1));
 
 //Sticky NAVIGATION
 // const initialCoords=section1.getBoundingClientRect();
@@ -127,26 +128,59 @@ nav.addEventListener('mouseout',handleHover.bind(1));
 // const observer=new IntersectionObserver(obsCallback,obsOptions);
 // observer.observe(section1);
 //FInal STICKY NAV(REFACTORED)
-const header=document.querySelector('.header');
-const navHeight=nav.getBoundingClientRect().height;
-const stickyNav=function(entries){
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+const stickyNav = function (entries) {
   // const [entry]=entries;
-  const entry=entries[0];
+  const entry = entries[0];
   // console.log(entry);
-  if(!entry.isIntersecting){
+  if (!entry.isIntersecting) {
     nav.classList.add('sticky');
-  }else{
+  } else {
     nav.classList.remove('sticky');
   }
-}
-const headerObserver=new IntersectionObserver(stickyNav,{
-  root:null,
-  threshold:0,
-  rootMargin:`-${navHeight}px`,
+};
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
 });
 headerObserver.observe(header);
-
-//Events anda its handlers.
+//Reveal Section
+const allSelections = document.querySelectorAll('.section');
+const RevealSection = function (entries, Observer) {
+  const entry = entries[0];
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  Observer.unobserve(entry.target);
+};
+const sectionObserver = new IntersectionObserver(RevealSection, {
+  root: null,
+  threshold: 0.15,
+});
+allSelections.forEach(function (section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
+//Lazy Loading Images
+const imgTargets = document.querySelectorAll('img[data-src]');
+const loadImg = function (entries, observer) {
+  const entry = entries[0];
+  if (!entry.isIntersecting) return;
+  //Replace src with data src
+  entry.target.src = entry.target.dataset.src;
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  });
+  observer.unobserve(entry.target);
+};
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px',
+});
+imgTargets.forEach(img => imgObserver.observe(img));
+//Events and  its handlers.
 // const h1=document.querySelector('h1');
 // const alert1=function(e){
 //   alert('addEventListener:Great! YOu are reading a heading.');
@@ -159,7 +193,6 @@ headerObserver.observe(header);
 // setTimeout(()=>{
 //   h1.removeEventListener('mouseenter',alert1);
 // },3000);
-
 
 // //Selecting Elements
 // console.log(document.documentElement);
@@ -215,9 +248,9 @@ headerObserver.observe(header);
 // })
 
 ///Dom traversing
-const h1=document.querySelector('h1');
+const h1 = document.querySelector('h1');
 //Goind Downwards:child
-// console.log(h1.querySelectorAll('.highlight')); 
+// console.log(h1.querySelectorAll('.highlight'));
 // console.log(h1.childNodes);
 // console.log(h1.children);
 // h1.firstElementChild.style.color='white';
